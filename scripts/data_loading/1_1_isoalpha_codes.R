@@ -9,7 +9,32 @@ if (!require("whoville")) {
   remotes::install_github("caldwellst/whotilities")
 }
 # List of LAC countries
-countries<-readxl::read_excel(str_c(fldr_main,'/input/IADB_country_codes_admin_0.xlsx'))
+#countries<-readxl::read_excel(str_c(fldr_main,'/input/IADB_country_codes_admin_0.xlsx'))
+
+focus_countries<-whoville::names_to_iso3(c('Argentina',
+                                           'Bolivia',
+                                           'Brazil',
+                                           'Barbados',
+                                           'Chile',
+                                           'Colombia',
+                                           'Costa Rica',
+                                           'Dominican Republic',
+                                           'Ecuador',
+                                           'Guatemala',
+                                           'Guyana',
+                                           'Honduras',
+                                           'Haiti',
+                                           'Jamaica',
+                                           'Mexico',
+                                           'Panama',
+                                           'Peru',
+                                           'Paraguay',
+                                           'El Salvador',
+                                           'Suriname',
+                                           'Trinidad and Tobago',
+                                           'Uruguay'
+                                           )
+                                         )
 
 #---------------------------------------------------------------- -
 # 1. OECD Countries ####
@@ -24,7 +49,6 @@ oecd_list<-whoville::iso3_to_names(oecd_list_iso3)
 # 2. LAC Countries ####
 #---------------------------------------------------------------- -
 # 2.1 Name list
-
 lac_list<-c("Brazil", #
             "Barbados",#
             "Uruguay", #
@@ -72,9 +96,10 @@ country_codes<-
   bind_rows(tribble(~iso3,~country_name,~group,
                     'LAC','Latin America and\n the Caribbean',NA,
                     'OECD','OECD',NA)) |> 
-  rename(country_name_en=country_name) |> 
-  left_join(countries |> select(isoalpha3,country_name_es),
-            by=c('iso3'='isoalpha3'))
+  rename(country_name_en=country_name) |>
+  mutate(focus = if_else(iso3 %in% focus_countries,1,0))
+  #left_join(countries |> select(isoalpha3,country_name_es),
+  #          by=c('iso3'='isoalpha3'))
 
 # Exporting Dataframe
 write_csv(country_codes,str_c(fldr_temp,'/country_codes.csv'))

@@ -21,8 +21,6 @@ wb_ind<-WDI::WDIsearch('')
 #               country='all', start=2000, end=2023) |>
 #   mutate(last_saved = today())
 
-wb_t<-WDI::WDIbulk()
-
 wb_df_all<-WDI::WDIbulk()[[1]]
 
 wb_df_all<-wb_df_all|> 

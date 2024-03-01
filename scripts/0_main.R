@@ -2,7 +2,8 @@
 # Smart Spending Book Datasets
 # DOC: 03/01/24
 # Team:
-#   - Pedro
+#   - Pedro Scatimburgo
+#   - Danielle Nascimento Seddon
 #   - Juan Francisco Margitic
 # Date Modified: 
 ################################################################# #
