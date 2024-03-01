@@ -15,7 +15,7 @@ countries<-readxl::read_excel(str_c(fldr_main,'/input/IADB_country_codes_admin_0
 # 1. OECD Countries ####
 #---------------------------------------------------------------- -
 # 1.1 isoalpha3 list
-oecd_list_iso3<-whoville::oecd_member_states()
+oecd_list_iso3<-c(whoville::oecd_member_states(),'CRI')
 
 # 1.2 name list
 oecd_list<-whoville::iso3_to_names(oecd_list_iso3)
@@ -29,7 +29,7 @@ lac_list<-c("Brazil", #
             "Barbados",#
             "Uruguay", #
             "Argentina", # 
-            "French Guiana", #
+            #"French Guiana", #
             "Suriname", #
             "Colombia", #
             "Venezuela",#
@@ -48,11 +48,11 @@ lac_list<-c("Brazil", #
             "Guatemala", #
             "Mexico", #
             "Trinidad and Tobago", #
-            "Puerto Rico", #
+            #"Puerto Rico", #
             "Dominican Republic", #
             "Haiti", #
             "Jamaica", #
-            "Cuba", #
+            #"Cuba", #
             "Bahamas"#
 )
 
