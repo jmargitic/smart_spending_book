@@ -60,7 +60,19 @@ edstats<-read_csv(str_c(fldr_wb,'/raw/EdStatsData.csv'))|>
   filter(isoalpha3 %in% country_codes$iso3)
 
 #---------------------------------------------------------------- -
-# 2. Exporting indicators -----  
+# 2. Filtering indicators -----  
+#---------------------------------------------------------------- -
+# WDI
+source(str_c(fldr_main,'/scripts/data_loading/1_2_1_wdi_ind_filter_list.R'))
+
+wdi_f<-wb_df_all |> 
+  mutate(source = 'WDI-WB') |> 
+  filter(isoalpha3 %in% country_codes$iso3) |> 
+  filter(indicator %in% wdi_ind_f$indicator)
+
+
+#---------------------------------------------------------------- -
+# #. Exporting indicators -----  
 #---------------------------------------------------------------- -
 dir.create(fldr_wb)
 
@@ -75,9 +87,13 @@ write_csv(wb_ind,str_c(fldr_in,'/creat/wb_dict.csv'))
 write_csv(wb_df_all,str_c(fldr_wb,'/wb_df_bulk.csv'))
 write_csv(wb_df_all,str_c(fldr_in,'/creat/wb_df.csv'))
 
+# Exporting WDI Filtered
+write_csv(wdi_f,str_c(fldr_wb,'/wdi_filtered_db.csv'))
+write_csv(wdi_f,str_c(fldr_in,'/creat/wdi_filtered_db.csv'))
+
 # Exporting Edstats
-#write_csv(edstats,str_c(fldr_wb,'/wb_edstats.csv'))
-#write_csv(edstats,str_c(fldr_in,'/creat/wb_edstats.csv'))
+write_csv(edstats,str_c(fldr_wb,'/wb_edstats.csv'))
+write_csv(edstats,str_c(fldr_in,'/creat/wb_edstats.csv'))
 
 
 cat('\n 1_2 WB - Data Loading Finished \n')
