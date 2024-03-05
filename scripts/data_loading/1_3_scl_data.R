@@ -16,6 +16,7 @@
 # }
 
 pacman::p_load("RSocrata")
+dir.create(str_c(fldr_temp,'/scl'))
 fldr_scl<-str_c(fldr_temp,'/scl/',today_d)
 dir.create(fldr_scl)
 #---------------------------------------------------------------- -
@@ -48,9 +49,11 @@ list_ind_scl<-scl_dict |> pull(indicator)
 url_request_scl<-'https://mydata.iadb.org/resource/q8e9-eb82.json?theme_es=Educaci%C3%B3n'
 
 scl_data <- read.socrata(url_request_scl) |> 
-  mutate(collection_es = if_else(source=='PISA','PISA',collection_es),
+  mutate(year = as.numeric(year),
+         collection_es = if_else(source=='PISA','PISA',collection_es),
          collection_en = if_else(source=='PISA','PISA',collection_en),
-         last_saved = today()) 
+         last_saved = today()) |> 
+  select(-c(dummy_gdi:admin1_ipums))
 
 # Exporting database
 write_csv(scl_data,str_c(fldr_scl,'/scl_data.csv'))
