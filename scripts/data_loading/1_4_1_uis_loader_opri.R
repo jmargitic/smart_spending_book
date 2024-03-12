@@ -11,14 +11,14 @@
 #---------------------------------------------------------------- -
 # Specify the URL of the zip file
 #url<-"https://apimgmtstzgjpfeq2u763lag.blob.core.windows.net/content/MediaLibrary/bdds/OPRI_092023.zip"
-url<-'https://uis.unesco.org/sites/default/files/documents/bdds/Education/OPRI_092023.zip'
+url<-'https://uis.unesco.org/sites/default/files/documents/bdds/022024/OPRI.zip'
 
 # Specify the directory to unzip the files into (make sure this directory exists or create it)
 dir.create(fldr_uis)
 dir.create(str_c(fldr_uis,'/raw'))
 
 # Specify the local path to save the zip file
-destfile <- str_c(fldr_uis,'/raw/OPRI_092023.zip')
+destfile <- str_c(fldr_uis,'/raw/OPRI.zip')
 
 # Download the file
 download.file(url, destfile, mode="wb")
@@ -56,7 +56,8 @@ opri_r<-
   #filter(isoalpha3 %in% countries$isoalpha3)
 
 #Binding national and regional
-opri<-opri_n |> bind_rows(opri_r)|> 
+opri<-opri_n |> 
+  bind_rows(opri_r)|> 
   mutate(last_saved = today())
 
 # Read OPRI metadata
@@ -120,30 +121,30 @@ write_csv(opri,
           str_c(fldr_uis,'/clean/indicators_unesco_uis_opri.csv'))
 
 ## Filtering indicators
-list_ind_filter<-
-  c("X.PPPCONST.1.FSGOV",
-    "X.PPPCONST.2T3.FSGOV",
-    "X.PPPCONST.5T8.FSGOV",
-    "X.PPPCONST.FSGOV",
-    "X.USCONST.1.FSGOV",
-    "X.USCONST.2T3.FSGOV",
-    "X.USCONST.5T8.FSGOV",
-    "X.USCONST.FSGOV",
-    "XGDP.1.FSGOV", #
-    "XGDP.2T3.FSGOV", #
-    "XGDP.5T8.FSGOV", #
-    "XSPENDP.1.FDPUB.FNCUR",
-    "XSPENDP.1.FDPUB.FNS", #
-    "XSPENDP.2T3.FDPUB.FNCUR",
-    "XSPENDP.2T3.FDPUB.FNS", #
-    "XSPENDP.5T8.FDPUB.FNCUR",
-    "XSPENDP.5T8.FDPUB.FNS", #
-    "XSPENDP.FDPUB.FNCUR",
-    "XSPENDP.FDPUB.FNS" #
-    )
-# Exporting clean
-write_csv(opri |> filter(indicator %in% list_ind_filter),
-          str_c(fldr_uis,'/clean/indicators_unesco_uis_opri_FILTERED.csv'))
+# list_ind_filter<-
+#   c("X.PPPCONST.1.FSGOV",
+#     "X.PPPCONST.2T3.FSGOV",
+#     "X.PPPCONST.5T8.FSGOV",
+#     "X.PPPCONST.FSGOV",
+#     "X.USCONST.1.FSGOV",
+#     "X.USCONST.2T3.FSGOV",
+#     "X.USCONST.5T8.FSGOV",
+#     "X.USCONST.FSGOV",
+#     "XGDP.1.FSGOV", #
+#     "XGDP.2T3.FSGOV", #
+#     "XGDP.5T8.FSGOV", #
+#     "XSPENDP.1.FDPUB.FNCUR",
+#     "XSPENDP.1.FDPUB.FNS", #
+#     "XSPENDP.2T3.FDPUB.FNCUR",
+#     "XSPENDP.2T3.FDPUB.FNS", #
+#     "XSPENDP.5T8.FDPUB.FNCUR",
+#     "XSPENDP.5T8.FDPUB.FNS", #
+#     "XSPENDP.FDPUB.FNCUR",
+#     "XSPENDP.FDPUB.FNS" #
+#     )
+# # Exporting clean
+# write_csv(opri |> filter(indicator %in% list_ind_filter),
+#           str_c(fldr_uis,'/clean/indicators_unesco_uis_opri_FILTERED.csv'))
 
 
 
